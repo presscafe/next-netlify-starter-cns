@@ -1,6 +1,6 @@
 # REPO-IDENTITY — `presscafe/next-netlify-starter-cns`
 
-**Recorded:** 2026-10-14 · **Record type:** repository passport (audit + reconciliation)
+**Recorded:** 2026-10-14 · **Corrected:** 2026-10-20 (§2 rows 3, 6, 9 — see §7) · **Record type:** repository passport (audit + reconciliation)
 **Governing authority:** COLLECTIVE-OPERATING-CHARTER (ADOPTED 2026-10-09) and PORTFOLIO-REPOSITORY-DISPOSITION-2026-10-02-refresh-2026-10-09
 **Status of every disposition below: PROPOSED — nothing executed.** Per the disposition record's rules 7–8 and §12, no archive, delete, detach or merge happens without a recorded principal approval.
 
@@ -26,13 +26,13 @@ Rationale in one line: this is an unmodified upstream template shell plus an aut
 | --- | --- | --- |
 | 1 | Ownership | `presscafe` (GitHub user id 11492829). A **second** identity of the principal; the authenticated session user is `faroukpandor`. Commit author email `presscafeworld@gmail.com`. |
 | 2 | Provenance | Derivative of `netlify-templates/next-netlify-starter` (**MIT**). README still carries the upstream template's own deploy badge and `utm_campaign=nextstarter-cs` links — i.e. upstream boilerplate, never localised. |
-| 3 | Fork status | `isFork: false`, `parent: null`. Not a GitHub fork, so **no fork-network provenance** — history was flattened into a single commit titled `commit` (2024-04-01). Attribution survived only via README, and the MIT `LICENSE` file had been dropped (restored in this pass — see §7). |
+| 3 | Fork status | `isFork: false`, `parent: null` — GitHub does **not** track it as a fork, so there is no fork-network link. **Corrected 2026-10-20:** the full upstream commit history *is* intact (109 commits, original authors preserved — `cassidoo`, `renovate[bot]`, `maxcell`, `tzmanics` et al.). This is an *unlinked copy*, not a flattened re-upload. The MIT `LICENSE` file had nonetheless been dropped (restored in this pass — see §7). |
 | 4 | Canonical enterprise | None. No capability in the portfolio is canonically hosted here. |
 | 5 | Current purpose | Undeclared. `description: ""`, no topics, no homepage, no `REPO-IDENTITY.md` until now. |
-| 6 | Last meaningful activity | Created 2022-12-03; **last push 2024-04-01** → dormant ~2.5 years as at 2026-10-14. Exactly one commit in history. |
+| 6 | Last meaningful activity | Created 2022-12-03; **last principal commit 2024-04-01** → dormant ~2.5 years. **Corrected 2026-10-20:** the repo holds **109 commits**, of which **108 are upstream** and exactly **1 is the principal's**. The earlier "one commit in history" reading was an artifact of the audit sandbox holding a shallow, grafted clone (`git rev-parse --is-shallow-repository` → `true`, `.git/shallow` → `3c0f951`). See §7. |
 | 7 | Deployment / dependencies | No homepage URL, no Netlify site recorded in-repo. `netlify.toml` still declares the upstream `netlify-plugin-cypress` block. Build requires `NEXT_PUBLIC_TINA_CLIENT_ID` + `TINA_TOKEN` (Tina Cloud), which are not present and not documented. |
 | 8 | Secrets / security | **Clean.** No committed credentials; the only token reference is `process.env.TINA_TOKEN` in `tina/config.ts`. `.gitignore` covers `.env*`, `node_modules`, `.netlify`, `tina/__generated__`. |
-| 9 | Unique intellectual work | **None.** Diff vs upstream shows only: TinaCMS CLI scaffold (`tina/config.ts`, `tina/tina-lock.json`, `content/posts/hello-world.md` lorem ipsum, and `pages/demo/blog/[filename].tsx` — a file that labels itself *"This is a demo file once you have tina setup feel free to delete this file"*), plus Cypress config and TS config. All generated or boilerplate. |
+| 9 | Unique intellectual work | **None.** The principal's single commit (`3c0f951`, 2024-04-01) touches 13 files, +9,804/−2,065 — but ~9,460 of those added lines are machine-generated (`yarn.lock` +8,883, `package-lock.json` +577, `tina-lock.json`, `next-env.d.ts`, `.gitpod.yml`). The human-authored remainder is the TinaCMS CLI scaffold (`tina/config.ts`, 57 lines), a 218-line demo page that labels itself *"a demo file once you have tina setup feel free to delete this file"*, `tsconfig.json`, and 9 lines of lorem ipsum. No product code, no content, no configuration unique to any enterprise. |
 | 10 | Duplication | **Yes — direct duplicate.** See §3. |
 | 11 | Disposition | Assigned above (PROPOSED). |
 | 12 | Decision record | This file. To be mirrored into the portfolio disposition doc once approved. |
@@ -107,22 +107,31 @@ This is the higher-leverage finding of the pass: **the portfolio has a second, l
 | Restored the upstream **MIT `LICENSE`** (verbatim, © netlify-templates) that this derivative had dropped | Disposition §8 — "preserve attribution, licence obligations and provenance"; charter §19 |
 | Created this **`REPO-IDENTITY.md`** passport | Disposition §6 rule 3, §11 steps 11–12 |
 | Ran a secret scan, duplicate diff, upstream divergence check and an install/build viability test (result partly environment-limited — see §4) | Disposition §11 steps 2, 7–10 |
+| **Corrected §2 rows 3, 6 and 9 on 2026-10-20** after GitHub's contributor and commit APIs contradicted the local `git log` reading. The first pass wrongly reported "one flattened commit" and "no fork-network provenance"; the real history is 109 commits with upstream authorship intact. The *conclusion* (no unique intellectual work) is unchanged and now better evidenced. | Charter §22 — distinguish facts from assumptions; §31 — when something fails, diagnose the cause |
+
+**Methodology rule adopted from that error:** for any repository audit, **commit history must be read from the GitHub API, never from a local clone.** A shallow or grafted checkout silently truncates history and produces confident but false evidence. Verify with `git rev-parse --is-shallow-repository` before trusting `git log`. This applies to every future passport in the portfolio audit, not just this repo.
 
 **Not** taken (withheld pending approval): archive, delete, unfork/detach, rename, dependency upgrade, removal of the duplicate sibling, or any change to the GitHub repository settings.
 
 ---
 
-## 8. Approval queue (one decision per item)
+## 8. Approval queue — decisions recorded 2026-10-14
 
-1. **This repo + `presscafe/next-netlify-starter`** — approve ARCHIVE for both as a single SUPERSEDED family? (Recommended: yes. No unique work is lost; history remains readable in an archived repo.)
-2. **Scope extension** — approve extending the repository-passport audit to the `presscafe` account (125 repos), using the same twelve checks and the same propose-don't-execute rule? (Recommended: yes; highest leverage.)
-3. **Empty-repo queue in `presscafe`** (6 repos) — approve the §6 default flow (confirm intent → delete, or mark EXPERIMENT with a `REPO-IDENTITY.md`, or archive)?
-4. **Health repo** — confirm the intended product/client for `healthhaven-eleventy-netlify-boilerplate` before anything touches it.
+| # | Item | Principal decision | Execution status |
+| --- | --- | --- | --- |
+| 1 | Archive this repo + `presscafe/next-netlify-starter` as one SUPERSEDED family | **APPROVED** | **BLOCKED — not executable by this identity.** `faroukpandor` holds `write` on `next-netlify-starter-cns` and `read` only on `next-netlify-starter`; archiving requires `admin` on both. Remedy: the `presscafe` owner archives them, or grants `admin`, or GitHub is reconnected as `presscafe`. |
+| 2 | Extend the passport audit to the `presscafe` account (125 repos) | **APPROVED** | **EXECUTED** — see `PORTFOLIO-AUDIT-PRESSCAFE-2026-10-20`. Read-only; no mutations. |
+| 3 | Empty-repo queue in `presscafe` (6 repos) — §6 default flow | Not separately decided | **PROPOSED ONLY** in the portfolio audit. Nothing deleted. |
+| 4 | Health repo — confirm intended product/client before anything touches it | Not decided | **ESCALATED, UNCHANGED.** Contributor data strengthens the escalation: `healthhaven-eleventy-netlify-boilerplate` has 261 commits and **zero** by the principal — the "healthhaven" name carries no local work at all. |
+
+Item 1 is recorded as approved-but-blocked rather than done. Per rules 7–8 an approval that cannot be executed must not be reported as executed.
 
 ---
 
 ## 9. Single most valuable next action (charter §34)
 
-**Approve or reject item 2 — extend the audit to `presscafe`.**
+Item 2 was approved and executed, so the next action moves down the queue.
 
-It is specific, zero-cost, reversible, and it is the only action that changes the portfolio's trajectory: the 2026-10-09 record cannot deliver "one canonical home per capability" or "zero unexplained empty repositories" while 125 repos in a second identity remain unexamined. Archiving this particular shell (item 1) is tidy but marginal by comparison.
+**Grant `admin` on the two `presscafe` starter repos (or have `presscafe` archive them directly), so the approved disposition in item 1 can actually close.**
+
+It is specific, zero-cost, reversible, and it is the only thing standing between a recorded decision and an executed one. Everything else in the portfolio audit is propose-only until the same permission gap is resolved — which makes it, not the audit itself, the real bottleneck. See the portfolio audit's §9 for the larger finding it uncovered: **roughly 15 of 35 owned `presscafe` repos contain zero commits by the principal**, including several whose names imply live Botswana products.
