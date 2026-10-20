@@ -86,7 +86,7 @@ Do **not** revive this repo. Under charter §6/§7 (free-tier-first, ownership, 
 The 2026-10-09 "Live refresh" audited **`faroukpandor` only** (39 repos: 6 owned, 33 forks). It did not cover `presscafe` at all. Evidence gathered here:
 
 - `presscafe` holds **125 repositories — 35 owned, 90 forks**. That is ~3× the audited account and entirely outside recorded governance.
-- **83 of 125** have not been pushed since before 2025-01-01; **6 are empty (0 KB)**.
+- **81 of 125** have not been pushed since before 2025-01-01 (**82** on a principal-activity basis — this repo reports 2026-10-14 only because the audit pushed a branch to it); **6 are empty (0 KB)**; **0 are archived**.
 - Duplicate/entropy clusters already visible in `presscafe`:
   - `hugo-meghna-forestry` + `hugo-meghna-forestry2` + `meghna-hugo` (0 KB)
   - `1-click-hugo-cms` (0 KB) + `one-click-hugo-cms` (53 MB)
