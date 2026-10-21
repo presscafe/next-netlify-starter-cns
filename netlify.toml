@@ -5,6 +5,12 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# Declared explicitly so the build always gets a runtime that supports the
+# installed Next.js major version, instead of whatever the site was pinned to
+# when it was first created.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
 # End-to-end tests run in GitHub Actions (.github/workflows/ci.yml).
 # The netlify-plugin-cypress post-build step was removed: it serves the site on
 # port 8888 during the build, which conflicts with the app's own port 3000 and
