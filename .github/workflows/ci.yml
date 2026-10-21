@@ -23,9 +23,7 @@ jobs:
         run: npm run build
 
       - name: End-to-end tests
-        uses: cypress-io/github-action@v6
-        with:
-          install: false
-          start: npm start
-          wait-on: 'http://localhost:3000'
-          wait-on-timeout: 120
+        run: |
+          npm start &
+          npx --yes wait-on@8 http://localhost:3000
+          npm test

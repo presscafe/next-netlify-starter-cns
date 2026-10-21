@@ -5,8 +5,10 @@
 [build.environment]
   NODE_VERSION = "20"
 
-[[plugins]]
-  package = "netlify-plugin-cypress"
+# End-to-end tests run in GitHub Actions (.github/workflows/ci.yml).
+# The netlify-plugin-cypress post-build step was removed: it serves the site on
+# port 8888 during the build, which conflicts with the app's own port 3000 and
+# made every deploy depend on a local test run.
 
 [[headers]]
   for = "/*"
