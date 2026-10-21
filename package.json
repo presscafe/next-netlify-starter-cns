@@ -1,21 +1,24 @@
 {
   "name": "next-netlify-starter",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
+  "description": "Minimal Next.js 16 starter configured for Netlify, with Cypress end-to-end tests.",
+  "engines": {
+    "node": ">=20.9 <23"
+  },
   "scripts": {
-    "dev": "TINA_PUBLIC_IS_LOCAL=true tinacms dev -c \"next dev\"",
-    "build": "tinacms build && next build",
-    "export": "next export"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "cypress run",
+    "test:open": "cypress open"
   },
   "dependencies": {
-    "cypress": "^10.0.3",
-    "next": "^12.1.5",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "tinacms": "^1.6.1"
+    "next": "16.4.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@tinacms/cli": "^1.5.43",
-    "@types/node": "^20.12.2"
+    "cypress": "^16.2.0"
   }
 }

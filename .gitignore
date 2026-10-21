@@ -34,3 +34,9 @@ yarn-error.log*
 
 node_modules
 .env
+# netlify CLI
+/.netlify
+
+# local image-triage artefacts (not part of the site)
+/google_drive
+/_drive-work/preview
