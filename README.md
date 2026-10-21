@@ -1,90 +1,82 @@
 # Next + Netlify Starter
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/46648482-644c-4c80-bafb-872057e51b6b/deploy-status)](https://app.netlify.com/sites/next-dev-starter/deploys)
+Minimal [Next.js](https://nextjs.org/) 16 + React 19 starter wired for Netlify, with
+Cypress end-to-end tests and GitHub Actions CI.
 
-This is a [Next.js](https://nextjs.org/) v12 project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) and set up to be instantly deployed to [Netlify](https://url.netlify.com/SyTBPVamO)!
+This repository began as a copy of
+[`netlify-templates/next-netlify-starter`](https://github.com/netlify-templates/next-netlify-starter)
+and has been modified since. The upstream MIT licence is restored in `LICENSE`.
 
-This project is a very minimal starter that includes 2 sample components, a global stylesheet, a `netlify.toml` for deployment, and a `jsconfig.json` for setting up absolute imports and aliases. With Netlify, you'll have access to features like Preview Mode, server-side rendering/incremental static regeneration via Netlify Functions, and internationalized routing on deploy automatically.
+## Requirements
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify-templates/next-netlify-starter&utm_source=github&utm_medium=nextstarter-cs&utm_campaign=devex-cs)
+- Node.js 20.9 or newer (`.nvmrc` pins 20; `engines` allows `>=20.9 <23`)
+- npm
 
-(If you click this button, it will create a new repo for you that looks exactly like this one, and sets that repo up immediately for deployment on Netlify)
-
-## Table of Contents:
-
-- [Getting Started](#getting-started)
-- [Installation options](#installation-options)
-- [Testing](#testing)
-  - [Included Default Testing](#included-default-testing)
-  - [Removing Renovate](#removing-renovate)
-  - [Removing Cypress](#removing-cypress)
-
-## Getting Started
-
-First, run the development server:
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
+npm ci          # install exact, lockfile-pinned dependencies
+npm run dev     # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+| Script | What it does |
+| --- | --- |
+| `npm run dev` | Next.js dev server on port 3000 |
+| `npm run build` | Production build (`.next/`) |
+| `npm start` | Serve the production build on port 3000 |
+| `npm test` | Run Cypress end-to-end tests headlessly against `http://localhost:3000` |
+| `npm run test:open` | Open the Cypress test runner |
 
-### Installation options
+## Project layout
 
-**Option one:** One-click deploy
+```
+pages/            _app.js, _document.js, index.js, 404
+components/       Header, Footer (+ CSS module)
+styles/           globals.css, imported once from pages/_app.js
+cypress/e2e/      end-to-end specs
+netlify.toml      build command, Node version, security headers, Cypress plugin
+.github/workflows CI: npm ci -> build -> Cypress
+tina/             retained TinaCMS config (not used by the site - see below)
+content/posts/    Markdown used by that retained Tina demo
+```
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify-templates/next-netlify-starter&utm_source=github&utm_medium=nextstarter-cs&utm_campaign=devex-cs)
+Path aliases `@components/*` and `@styles/*` are configured in `jsconfig.json`. This is a
+JavaScript project, so `jsconfig.json` - not `tsconfig.json` - owns the aliases; adding a
+`tsconfig.json` silently overrides it. **CSS cannot be imported through an alias**, so
+`pages/_app.js` imports `../styles/globals.css` by relative path.
 
-**Option two:** Manual clone
+## Environment variables
 
-1. Clone this repo: `git clone https://github.com/netlify-templates/next-netlify-starter.git`
-2. Navigate to the directory and run `npm install`
-3. Run `npm run dev`
-4. Make your changes
-5. Connect to [Netlify](https://url.netlify.com/Bk4UicocL) manually (the `netlify.toml` file is the one you'll need to make sure stays intact to make sure the export is done and pointed to the right stuff)
+The site builds and runs with none. See `.env.example` for the optional TinaCMS values.
+
+## TinaCMS
+
+`tina/config.ts`, `tina/tina-lock.json` and `content/posts/hello-world.md` are kept as a
+reference for the demo that shipped with this starter. The demo page was removed because
+it imported `tina/__generated__/client`, which only exists after a successful
+`tinacms build` and requires Tina Cloud credentials - so a fresh clone could not build.
+Nothing in the running site depends on Tina today.
+
+To switch it back on: `npm i -D tinacms @tinacms/cli`, add a page that uses the generated
+client, put `tinacms build` back in front of `next build`, and set
+`NEXT_PUBLIC_TINA_CLIENT_ID` and `TINA_TOKEN`.
+
+## Deployment
+
+Netlify builds with `npm run build` and serves `.next` (see `netlify.toml`). Security
+headers (`X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`,
+`Permissions-Policy`, HSTS) are set for all routes. A Content-Security-Policy is
+deliberately not set yet: Next.js injects inline bootstrap scripts, so a CSP needs nonces
+or hashes and should be tested before it is turned on.
 
 ## Testing
 
-### Included Default Testing
+Cypress specs live in `cypress/e2e`. `cypress.config.js` points at
+`http://localhost:3000`, matching `npm run dev` and `npm start`. CI builds the app,
+serves it with `npm start`, waits for the port, then runs the specs.
 
-We’ve included some tooling that helps us maintain these templates. This template currently uses:
+## License
 
-- [Renovate](https://www.mend.io/free-developer-tools/renovate/) - to regularly update our dependencies
-- [Cypress](https://www.cypress.io/) - to run tests against how the template runs in the browser
-- [Cypress Netlify Build Plugin](https://github.com/cypress-io/netlify-plugin-cypress) - to run our tests during our build process
-
-If your team is not interested in this tooling, you can remove them with ease!
-
-### Removing Renovate
-
-In order to keep our project up-to-date with dependencies we use a tool called [Renovate](https://github.com/marketplace/renovate). If you’re not interested in this tooling, delete the `renovate.json` file and commit that onto your main branch.
-
-### Removing Cypress
-
-For our testing, we use [Cypress](https://www.cypress.io/) for end-to-end testing. This makes sure that we can validate that our templates are rendering and displaying as we’d expect. By default, we have Cypress not generate deploy links if our tests don’t pass. If you’d like to keep Cypress and still generate the deploy links, go into your `netlify.toml` and delete the plugin configuration lines:
-
-```diff
-[[plugins]]
-  package = "netlify-plugin-cypress"
--  [plugins.inputs.postBuild]
--    enable = true
--
--  [plugins.inputs]
--    enable = false 
-```
-
-If you’d like to remove the `netlify-plugin-cypress` build plugin entirely, you’d need to delete the entire block above instead. And then make sure sure to remove the package from the dependencies using:
-
-```bash
-npm uninstall -D netlify-plugin-cypress
-```
-
-And lastly if you’d like to remove Cypress entirely, delete the entire `cypress` folder and the `cypress.config.ts` file. Then remove the dependency using:
-
-```bash
-npm uninstall -S cypress
-```
+MIT - see `LICENSE`.
